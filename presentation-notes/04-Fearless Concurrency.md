@@ -7,7 +7,7 @@ safe threaded code.
 ## Mutex Owns You
 
 In rust a Mutex contains a value, but that value can't be accessed
-directly instead you are forced to lock the mutext. When the lock goes
+directly instead you are forced to lock the Mutex. When the lock goes
 out of scope you no longer have access to the value.
 
 ```
@@ -33,7 +33,7 @@ println!("Final value: {:?}", mutex.into_inner());
 
 A lot of rust code uses iterator adapters like `map`, `filter` and so
 on. Because of the strict guarantees about what the lambdas passed to
-each operation can do making code mukli-threaded is often as simple as
+each operation can do making code multi-threaded is often as simple as
 changing `iter()` to `par_iter()` with Rayon.
 
 ```

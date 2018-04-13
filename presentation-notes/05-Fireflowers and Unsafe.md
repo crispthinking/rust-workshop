@@ -1,8 +1,8 @@
 # Fireflowers and Unsafe
 
-There are some things which can't be acchived within the restrictions
+There are some things which can't be achieved within the restrictions
 of safe Rust. Rust tends to take a pragmatic approach here. If you
-want to allow mutliple borrows to share nodes in a tree for example
+want to allow multiple borrows to share nodes in a tree for example
 and, every now and again, mutate one you can't. If you want to build a
 doubly linked-list you can't. What would the lifetimes of the borrows
 be for the next and previous links.
@@ -49,11 +49,11 @@ packages, or crates, produced by the community of rust enthusiasts; or
 Rustaceans as we like to call ourselves. Many people who use Rust end
 up raving about it. It's easy to think that people like Rust because
 of "memory safety without GC", the awesome iterator adapter APIs, or
-the cute little Ferris mascott.
+the cute little Ferris mascot.
 
 These are just the tools though. The metaphore used in the Rust
-comunity is that as a programmer you are Mario. Rust is a Fire
-Flower. When you use Rust you become Fire Maro. You're bigger, better,
+community is that as a programmer you are Mario. Rust is a Fire
+Flower. When you use Rust you become Fire Mario. You're bigger, better,
 and can shoot fireballs. Awesome right? You shouldn't use rust because
-of any one of its features. You should use rust becasuse it makes you
+of any one of its features. You should use rust because it makes you
 Fire Mario.
