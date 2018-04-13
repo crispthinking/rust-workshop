@@ -66,7 +66,7 @@ pub struct Person {
 }
 
 fn print_surname(person: Person) {
-	if let Some(surname) = person {
+	if let Some(surname) = person.surname {
 		println!("{}'s surname is {}", person.forename, surname);
 	} else {
 		println!("{} has no surname");
