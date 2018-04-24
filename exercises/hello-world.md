@@ -116,7 +116,7 @@ greet(&me.name());
 Now run the program again and you should see output something similar to this:
 
     Hello, World!
-	Hello, Will Speak!
+	Hello, Joe Bloggs!
 
 Note that we called the static method `new` with `::new`, and that we
 have to add a `&` in the call to `greet` to turn the owned string it
@@ -126,3 +126,120 @@ information, often including suggestions of how to "fix" them. If you
 want more information about the erorr try clickign the error number to
 see more details.
 
+## Adding Traits
+
+Having to explicitly get the `name` from a `Person` instance to greet
+them seems a bit of a faff. Let's introduce a trait to encompas what
+it means to be "Greetable". Traits in Rust are similar to interfaces
+in other languages, however they are more powerful ins some
+ways. First add the trait definition to the beginning of our code:
+
+```
+trait Greetable {
+    fn name(&self) -> String;
+}
+```
+
+Next lets move our `name` method from the `impl Person` block to a new `impl` block:
+
+```
+impl Greetable for Person {
+
+    fn name(&self) -> String {
+        /// ... as before ...
+    }
+}
+```
+
+Note that the function no longer needs the `pub` modifier.
+
+This block must contain a deifnition for each method in the trait. For
+our `Greetable` trait there is just one: `name`.
+
+We can now update our `greet` method to accept any type which is `Greetable`:
+
+```
+fn greet<T>(greetee: &T)
+    where T: Greetable + ?Sized
+{
+    println!("Hello, {}!", &greetee.name());
+}
+```
+
+The last step is to then implement `Greetable` for `str`:
+
+```
+impl Greetable for str {
+    fn name(&self) -> String {
+        self.to_string()
+    }
+}
+```
+
+If all goes well you should be able to run the example again and see the same output:
+
+    Hello, World!
+	Hello, Joe Bloggs!
+
+## Installing the Toolchain
+
+Now we have our example greeter working in
+<https://play.rust-lang.org> it's time to run it locally. The easiest
+way to manage installed Rust toolchains is with Rustup. This is a
+command line program which allows you to have mulitple toolchains
+installed (stable, beta, web asssembly etc.) and keep them all up to
+date. To get starated head to <https://rustup.rs>.
+
+On macOS and Linux copy the command line to a console and run it. On
+windows there is an installer to download an run. Both should end up
+installing toolchain and adding it to your path. To check open a new
+console and run the following commands:
+
+    $ cargo --version
+	cargo 0.26.0 (41480f5cc 2018-02-26)
+	$ rustc --version
+	rustc 1.25.0 (84203cac6 2018-03-25)
+
+You should see similar output.
+
+## Creating a Project with Cargo
+
+Cargo is the rust package manager and build tool. It is what you will
+usually interact with when working with Rust. In your console navigate
+to a folder where you want to create your project (e.g. `cd
+/Users/joe/Repositories`). Cargo has support for scaffolding simple
+projects. We'll use this to create a template to get us off the
+ground:
+
+    $ cargo new --bin hello
+
+This will create a new folder `hello/` under the current directory
+with a layout similar to this:
+
+```
+.
+├── Cargo.toml
+└── src
+    └── main.rs
+
+1 directory, 2 files
+```
+
+First lets check that it compiles. Change into `hello/` and run the following:
+
+```
+$ cargo build
+   Compiling hello v0.1.0 (file:///Users/joe/Repositories/hello)
+    Finished dev [unoptimized + debuginfo] target(s) in 8.62 secs
+```
+
+If all goes well you should see similar output. Now lets run the
+program. We can either do this directly by running `$
+./target/debug/hello` or with `$ cargo run`. The latter will make sure
+the compiled program is up to date before running it.
+
+Now it's time to copy our example code from the palypen at
+<https://play.rust-lang.org>. Open up `src/main` in your chosen text
+editor and replcae the contents with your final working code from the
+playpen. Save the file and re-run it with `$ cargo run`. You should
+see the same output that the playpen displayed in your console.
