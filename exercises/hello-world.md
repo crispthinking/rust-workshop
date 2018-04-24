@@ -185,9 +185,9 @@ The last step is to change `main` to greet the `Person` directly:
 
 ```rust
 fn main() {
-	greet("World");
-	let me = Person::new("Joe", "Bloggs");
-	greet(&me);
+    greet("World");
+    let me = Person::new("Joe", "Bloggs");
+    greet(&me);
 }
 ```
 
