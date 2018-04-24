@@ -45,18 +45,18 @@ fn main() {
 
 This is the canonical "Hello world" example written in rust. It shows
 off a few of the features of the language straight away. Rust code
-favors shorter keywors like `fn`, `impl` and `let` over longer ones;
-the lanugage is block-scode with blocks delimited by curly braces; and
-`println!` is a macro. Macros are often used in Rust to make complex
-or repetative code simpler to understand and manage. Don't worry
-though, macros in Rust are hygenic and nothing like the macros you
+favours shorter keywords like `fn`, `impl` and `let` over longer ones;
+the language is block-scoped with blocks delimited by curly braces;
+and `println!` is a macro. Macros are often used in Rust to make complex
+or repetitive code simpler to understand and manage. Don't worry
+though, macros in Rust are hygienic and nothing like the macros you
 might have experience with in C-land.
 
 ## Ownership
 
-The core safety construct in Rust is ownership. Let's say you have the
-follwing code which allocates a new book. I can do things with the
-book because I own it.
+The core safety construct in Rust is ownership. Let's say you have
+this code which allocates a new book. I can do things with the book
+because I own it.
 
 ```
 let book = Book::new("Excession");
@@ -70,7 +70,8 @@ assignment operator:
 let my_book = Book::new("Excession");
 let your_book = my_book;
 println!("Your book: {}", your_book);
-println!("My book: {}", my_book); // !!ERROR - This won't work.
+// !!ERROR - This won't work.
+println!("My book: {}", my_book);
 ```
 
 [Playground](https://play.rust-lang.org/?gist=75efc5c72f1fa97864e17aef192f10ff&version=stable)
@@ -99,12 +100,19 @@ encounter the error.
 
 ## Mutation
 
+Values, by default, are read only.
+
 ```
 let book = Book::new("Matter");
-book.next_page(); // !!ERROR - `book` isn't mutable
+// !!ERROR - `book` isn't mutable
+book.next_page();
 ```
 
 [Playground](https://play.rust-lang.org/?gist=c8b9fd08cdf7b368912b3ca82a066670&version=stable)
+
+In the previous examples it wouln't be possible to change the `Book`
+after creation. Lets say we have a function `next_page` which updates
+the page number in our book object.
 
 ```
 error[E0596]: cannot borrow immutable local variable `book` as mutable
@@ -116,33 +124,50 @@ error[E0596]: cannot borrow immutable local variable `book` as mutable
   |     ^^^^ cannot borrow mutably
 ```
 
-Values, by default, are read only. In the previous examples it wouln't
-be possible to change the `Book` after creation. To solve this we can
-use `let mut` bindings instead of `let` bindings.
+The compiler isn't happy about that.
 
 ```
 let mut book = Book::new("Matter");
 book.next_page();
 ```
 
+To solve this we can use `let mut` bindings instead of `let`
+bindings. By modelling mutablity this way Rust ensures that at most
+one place could be mutating data at once. It also means that if data
+could be mutated nothing else can be reading from it.
+
 ## Borrowing
 
 Only allowing a single variable to own a value at once is quite
-restrictve. Rust's solution to this is *borrowing*. Borrows in rust
-are like pointers or references that have been souped up a bit. A
-borrow is introduced with the ampersand character. The compiler makes
-sure ahead of time that no borrow lives longer than the value it
-references. This means you should never find yourself with a pointer
-to garbage memory. You can't accidentally return a reference to a
-location on a stack, or free memory that others still have a reference
-to.
+restrictve. Rust's solution to this is *borrowing*.
+
+Borrows in rust are like pointers or references that have been souped
+up a bit.
+
+A borrow is introduced with the ampersand character.
 
 ```
-let my_borrow: &Boo{
+let my_book = Book::new("Inversions");
+let my_borrow = &my_book;
+println!("Borrowed book: {:?}", my_borrow);
+```
+
+[Playground](https://play.rust-lang.org/?gist=dac1e2fdf69c5e13f3b7d16e3a04c098&version=stable)
+
+The compiler makes sure ahead of time that no borrow lives longer than
+the value it references. This means you should never find yourself
+with a pointer to garbage memory. You can't accidentally return a
+reference to a location on a stack, or free memory that others still
+have a reference to.
+
+```
+let my_borrow: &Book;
+{
     let my_book = Book::new("Inversions");
     my_borrow = &my_book;
 }
 println!("Borrowed book: {:?}", my_borrow);
+
 ```
 
 [Playground](https://play.rust-lang.org/?gist=c8c200361fee7ae99c0918dcac4377b1&version=stable)
@@ -166,6 +191,12 @@ borrow. In rust when an object goes out of scope, or is "dropped" in
 rust-lingo, the resources associated with it are recoved. This is
 similar to RAII in modern C++.
 
+```
+let mut my_book = Book::new(“Inversions");
+let my_borrow: &mut Book = &my_book;
+my_book.next_page();
+```
+
 In addition to a standard borrow you can also borrow mutably. Once
-again the comiler will ensure that only a single mutable borrow to a
+again the compiler will ensure that only a single mutable borrow to a
 value exists at once.

@@ -7,4 +7,4 @@ some rust yourself.
 
 ## Rustup
 
-Link to https://play.rust-lang.org/ & https://rustup.rs/.
+Link to <https://play.rust-lang.org/> & <https://rustup.rs/>.

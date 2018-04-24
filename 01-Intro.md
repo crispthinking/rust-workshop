@@ -1,7 +1,7 @@
 # Intro
 
 Hi, I'm will Speak. I'm [@willspeak on
-Twitter](https://twitter.com/willspeak), and [iwillspeakon
+Twitter](https://twitter.com/willspeak), and [iwillspeak on
 GitHub](https://github.com/iwillspeak).
 
 I work for Crisp Thinking. We're hiring for a variety of different
