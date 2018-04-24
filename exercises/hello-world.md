@@ -253,8 +253,17 @@ program. We can either do this directly by running `$
 ./target/debug/hello` or with `$ cargo run`. The latter will make sure
 the compiled program is up to date before running it.
 
-Now it's time to copy our example code from the palypen at
+Now it's time to copy our example code from the playpen at
 <https://play.rust-lang.org>. Open up `src/main` in your chosen text
-editor and replcae the contents with your final working code from the
+editor and replace the contents with your final working code from the
 playpen. Save the file and re-run it with `$ cargo run`. You should
 see the same output that the playpen displayed in your console.
+
+That's it! If you've been following along you've just written your
+first Rust program. You're now a Rustacean.
+
+## Source Code
+
+The final source code for this exercise can be found [next to this
+file on
+GitHub](https://github.com/crispthinking/rust-workshop/blob/master/exercises/hello/).
