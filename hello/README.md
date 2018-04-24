@@ -266,4 +266,4 @@ first Rust program. You're now a Rustacean.
 
 The final source code for this exercise can be found [next to this
 file on
-GitHub](https://github.com/crispthinking/rust-workshop/blob/master/exercises/hello/).
+GitHub](./).
