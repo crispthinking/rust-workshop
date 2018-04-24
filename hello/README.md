@@ -162,7 +162,7 @@ We can now update our `greet` method to accept any type which is `Greetable`:
 fn greet<T>(greetee: &T)
     where T: Greetable + ?Sized
 {
-    println!("Hello, {}!", &greetee.name());
+    println!("Hello, {}!", greetee.name());
 }
 ```
 

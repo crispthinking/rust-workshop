@@ -25,7 +25,7 @@ impl Person {
 fn greet<T>(greetee: &T)
     where T: Greetable + ?Sized
 {
-    println!("Hello, {}", greetee.name());
+    println!("Hello, {}!", greetee.name());
 }
 
 impl Greetable for str {
