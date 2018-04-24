@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <title>Intro to Types</title>
+    <meta name="viewport" content="width=700">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather|Open+Sans" rel="stylesheet">
+    <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="../style.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+  <body><header class="page-heading"><h1><a href="#">Intro to Types</h1><a class="home-link" href="../">presentation-notes</a></header><p>As well as lifetimes and borrowing another key feature in Rust is the
+strong static type system. As well as simple types like integers,
+strings, and arrays Rust has tuple types and user-defined <code>struct</code>s
+and <code>enum</code>s.</p>
+<p><ol><li><a href="#Structs">Structs</a><ol></ol></li><li><a href="#Enums">Enums</a><ol></ol></li><li><a href="#Null,-an-Exceptionally-Bad-Idea">Null, an Exceptionally Bad Idea</a><ol></ol></li><li><a href="#There-is-no-Try">There is no Try</a><ol></ol></li><li><a href="#Further-Typing">Further Typing</a><ol></ol></li></ol></p>
+<h2 id="Structs"><a href="#Structs">Structs</a></h2><p>Struct types allow you to group bits of data together. In our book
+example we could define the title and page number like this:</p>
+<pre><code>struct Book {
+    title: String,
+    page: i32,
+}
+</code></pre>
+<p>The title of the book is a heap-allocated owned string and the page is
+an integer.</p>
+<h2 id="Enums"><a href="#Enums">Enums</a></h2><p>Enums are a form of discrimiated union. They allow you to store one of
+a given set of options. Continuing our library-based theme we could
+create an enum to model the operations for a library book:</p>
+<pre><code>enum BookOperation {
+    Inspect,
+    Return(Book),
+    Lend(String),
+}
+</code></pre>
+<p>You can only access the values within an enum if you check that it is
+of the right type. This is done with a <code>match</code> or an <code>if let</code>.</p>
+<pre><code>match operation {
+    Return(book) =&gt; println!(&quot;Returning {}&quot;, book.title),
+    Lend(title)	=&gt; println!(&quot;Lending {}&quot;, title),
+    _ =&gt; ()
+}
+</code></pre>
+<h2 id="Null,-an-Exceptionally-Bad-Idea"><a href="#Null,-an-Exceptionally-Bad-Idea">Null, an Exceptionally Bad Idea</a></h2><p>The first place where this type system comes into its own is with
+<code>null</code>. There is no <code>null</code> in safe Rust. Instead values that may have
+value, or may not have the type <code>Option</code>. Option is an enum with two
+variants: <code>Some</code> and <code>None</code>.</p>
+<p>Lets say we wanted to write a function that gets someone's
+surname. Not everyone has a last name. In other languages you might
+throw an exception or return <code>null</code>. In Rust we can use <code>Option</code> to
+force the person consuming the API to check if there was a last name.</p>
+<pre><code>pub struct Person {
+    forename: String,
+    surname: Option&lt;String&gt;,
+}
+
+fn print_surname(person: Person) {
+    if let Some(surname) = person {
+        println!(&quot;{}'s surname is {}&quot;, person.forename, surname);
+    } else {
+        println!(&quot;{} has no surname&quot;);
+    }
+}
+</code></pre>
+<h2 id="There-is-no-Try"><a href="#There-is-no-Try">There is no Try</a></h2><p>Similar to <code>null</code> Rust doesn't have exceptions. Instead functions
+return a <code>Result</code> which is an <code>enum</code> of <code>Ok</code> or <code>Err</code>. In the same way
+that <code>Option</code> forces you to check for the existence of something
+<code>Result</code> forces you to check for an error. The question mark operator
+allows erorrs to be chained more easily.</p>
+<pre><code>pub fn hello_to_file(path: &amp;Path) -&gt; Result&lt;(), Error&gt; {
+    let mut file = File::create(&amp;path)?;
+    write!(file, &quot;hello world&quot;)?;
+    Ok(())
+}
+</code></pre>
+<p><a href="https://play.rust-lang.org/?gist=5bcc6d4b28b2f7e1d44c54d8cbedf213&amp;version=stable">Playground</a></p>
+<h2 id="Further-Typing"><a href="#Further-Typing">Further Typing</a></h2><p>You can use this to build things like type-safe state machines where
+the context is held in the value for each enum variant. Enums can also
+be used in place of boolean values. Often bools on their own as
+function parameters can be confusing:</p>
+<pre><code>render_to_path(&quot;hello/world/&quot;, true);
+</code></pre>
+<pre><code>render_to_path(&quot;hello/world/&quot;, PathMode::IgnoreMissing);
+render_to_path(&quot;hello/world/&quot;, PathMode::Create);
+</code></pre>
+<footer></footer></body></html>

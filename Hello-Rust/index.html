@@ -1,0 +1,153 @@
+<html>
+  <head>
+    <title>Hello Rust</title>
+    <meta name="viewport" content="width=700">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather|Open+Sans" rel="stylesheet">
+    <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="../style.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+  <body><header class="page-heading"><h1><a href="#">Hello Rust</h1><a class="home-link" href="../">presentation-notes</a></header><p><ol><li><a href="#Systems-Programming">Systems Programming</a><ol></ol></li><li><a href="#Safe,-Concurrent,-Fast---pick-three!">Safe, Concurrent, Fast - pick three!</a><ol></ol></li><li><a href="#Hello-Rust">Hello Rust</a><ol></ol></li><li><a href="#Ownership">Ownership</a><ol></ol></li><li><a href="#Mutation">Mutation</a><ol></ol></li><li><a href="#Borrowing">Borrowing</a><ol></ol></li></ol></p>
+<p>So, What is Rust?</p>
+<h2 id="Systems-Programming"><a href="#Systems-Programming">Systems Programming</a></h2><p>Rust is a &quot;systems programming&quot; language. But what does that mean?
+It's a bit of a fuzzy term which programming langauge authors use to
+mean that their lanaguage is 'low level' in some way.</p>
+<p>In rust &quot;systems programming&quot; means that you can run Rust on an
+embedded microcontroller, you can use Rust to build a browser, you can
+use rust to create a command line tool. It means you can use Rust
+where your only choices otherwise might have been C or C++.</p>
+<h2 id="Safe,-Concurrent,-Fast---pick-three!"><a href="#Safe,-Concurrent,-Fast---pick-three!">Safe, Concurrent, Fast - pick three!</a></h2><p>Rust's semi-official motto is &quot;safe, concurrent, fast - pick
+three&quot;. This summs up the ethos behind rust quite well. Rust aims to
+be a powerful, modern, high-level programming language. It is built
+around the core idea of providing 'safety' and using it to enable
+users to do more not less.</p>
+<p>In Rust &quot;safety&quot; means memory safety, data-race safety and type
+safety. Rust uses these as building blocks to enable high-leve code to
+compile down to fast machine code. You can write complex chains of
+fluent iterator adapters and, the compiler is able to optimise it down
+to the same fast &amp; efficent machine code that a hand-optimised
+<code>for</code>-loop would produce. This is because some of the safety
+guarantees built into Rust's type and ownership system give the
+compiler far more information to perform optimisations with than
+traditional C or C++ compilers have.</p>
+<h2 id="Hello-Rust"><a href="#Hello-Rust">Hello Rust</a></h2><p>So, what does rust look like?</p>
+<pre><code>fn main() {
+    println!(&quot;Hello, world!&quot;);
+}
+</code></pre>
+<p>This is the canonical &quot;Hello world&quot; example written in rust. It shows
+off a few of the features of the language straight away. Rust code
+favours shorter keywords like <code>fn</code>, <code>impl</code> and <code>let</code> over longer ones;
+the language is block-scoped with blocks delimited by curly braces;
+and <code>println!</code> is a macro. Macros are often used in Rust to make complex
+or repetitive code simpler to understand and manage. Don't worry
+though, macros in Rust are hygienic and nothing like the macros you
+might have experience with in C-land.</p>
+<h2 id="Ownership"><a href="#Ownership">Ownership</a></h2><p>The core safety construct in Rust is ownership. Let's say you have
+this code which allocates a new book. I can do things with the book
+because I own it.</p>
+<pre><code>let book = Book::new(&quot;Excession&quot;);
+println!(&quot;My book: {}&quot;, book);
+</code></pre>
+<p>If we create a second variable we can transfer ownership with the
+assignment operator:</p>
+<pre><code>let my_book = Book::new(&quot;Excession&quot;);
+let your_book = my_book;
+println!(&quot;Your book: {}&quot;, your_book);
+// !!ERROR - This won't work.
+println!(&quot;My book: {}&quot;, my_book);
+</code></pre>
+<p><a href="https://play.rust-lang.org/?gist=75efc5c72f1fa97864e17aef192f10ff&amp;version=stable">Playground</a></p>
+<pre><code>error[E0382]: use of moved value: `my_book`
+ --&gt; src/main.rs:5:31
+  |
+3 |     let your_book = my_book;
+  |         --------- value moved here
+4 |     println!(&quot;Your book: {:?}&quot;, your_book);
+5 |     println!(&quot;My book: {:?}&quot;, my_book); // !!ERROR - This won't work.
+  |                               ^^^^^^^ value used here after move
+  |
+  = note: move occurs because `my_book` has type `Book`, which does not implement the `Copy` trait
+</code></pre>
+<p>Once ownership is transferred from one variable to another the
+original variable can no longer be used to access the value. A value
+can only have a single owner at once. This is referred to as <em>move
+semantics</em> because assignment <em>moves</em> values.</p>
+<p>The compiler tries to help us here by showing us where we move the
+value, and suggesting that if the value was <code>Copy</code>able we wouldn't
+encounter the error.</p>
+<h2 id="Mutation"><a href="#Mutation">Mutation</a></h2><p>Values, by default, are read only.</p>
+<pre><code>let book = Book::new(&quot;Matter&quot;);
+// !!ERROR - `book` isn't mutable
+book.next_page();
+</code></pre>
+<p><a href="https://play.rust-lang.org/?gist=c8b9fd08cdf7b368912b3ca82a066670&amp;version=stable">Playground</a></p>
+<p>In the previous examples it wouln't be possible to change the <code>Book</code>
+after creation. Lets say we have a function <code>next_page</code> which updates
+the page number in our book object.</p>
+<pre><code>error[E0596]: cannot borrow immutable local variable `book` as mutable
+ --&gt; src/main.rs:3:5
+  |
+2 |     let book = Book::new(&quot;Matter&quot;);
+  |         ---- consider changing this to `mut book`
+3 |     book.next_page(); // !!ERROR - `book` isn't mutable
+  |     ^^^^ cannot borrow mutably
+</code></pre>
+<p>The compiler isn't happy about that.</p>
+<pre><code>let mut book = Book::new(&quot;Matter&quot;);
+book.next_page();
+</code></pre>
+<p>To solve this we can use <code>let mut</code> bindings instead of <code>let</code>
+bindings. By modelling mutablity this way Rust ensures that at most
+one place could be mutating data at once. It also means that if data
+could be mutated nothing else can be reading from it.</p>
+<h2 id="Borrowing"><a href="#Borrowing">Borrowing</a></h2><p>Only allowing a single variable to own a value at once is quite
+restrictve. Rust's solution to this is <em>borrowing</em>.</p>
+<p>Borrows in rust are like pointers or references that have been souped
+up a bit.</p>
+<p>A borrow is introduced with the ampersand character.</p>
+<pre><code>let my_book = Book::new(&quot;Inversions&quot;);
+let my_borrow = &amp;my_book;
+println!(&quot;Borrowed book: {:?}&quot;, my_borrow);
+</code></pre>
+<p><a href="https://play.rust-lang.org/?gist=dac1e2fdf69c5e13f3b7d16e3a04c098&amp;version=stable">Playground</a></p>
+<p>The compiler makes sure ahead of time that no borrow lives longer than
+the value it references. This means you should never find yourself
+with a pointer to garbage memory. You can't accidentally return a
+reference to a location on a stack, or free memory that others still
+have a reference to.</p>
+<pre><code>let my_borrow: &amp;Book;
+{
+    let my_book = Book::new(&quot;Inversions&quot;);
+    my_borrow = &amp;my_book;
+}
+println!(&quot;Borrowed book: {:?}&quot;, my_borrow);
+
+</code></pre>
+<p><a href="https://play.rust-lang.org/?gist=c8c200361fee7ae99c0918dcac4377b1&amp;version=stable">Playground</a></p>
+<pre><code>error[E0597]: `my_book` does not live long enough
+ --&gt; src/main.rs:5:22
+  |
+5 |         my_borrow = &amp;my_book;
+  |                      ^^^^^^^ borrowed value does not live long enough
+6 |     }
+  |     - `my_book` dropped here while still borrowed
+7 |     println!(&quot;Borrowed book: {:?}&quot;, my_borrow);
+8 | }
+  | - borrowed value needs to live until here
+</code></pre>
+<p>Here the compiler tells us that <code>my_book</code> goes out of scope before
+<code>my_borrow</code> and prevents us assigning a reference to the book into the
+borrow. In rust when an object goes out of scope, or is &quot;dropped&quot; in
+rust-lingo, the resources associated with it are recoved. This is
+similar to RAII in modern C++.</p>
+<pre><code>let mut my_book = Book::new(“Inversions&quot;);
+let my_borrow: &amp;mut Book = &amp;my_book;
+my_book.next_page();
+</code></pre>
+<p>In addition to a standard borrow you can also borrow mutably. Once
+again the compiler will ensure that only a single mutable borrow to a
+value exists at once.</p>
+<footer></footer></body></html>
