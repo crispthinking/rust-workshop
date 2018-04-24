@@ -25,7 +25,7 @@ edit and run Rust right from your browser. Navigate there now and you
 should be greeted by a text editor containing the following simple
 rust program:
 
-```
+```rust
 fn main() {
     println!("Hello, world!");
 }
@@ -46,7 +46,7 @@ before in many other languages. Let's make it a bit more
 Rusty. Instead of greeting world we can abstract away the target of
 the greeting. Add the following function definition before `main`:
 
-```
+```rust
 fn greet(greetee: &str) {
     println!("Hello, {}!", greetee);
 }
@@ -54,7 +54,7 @@ fn greet(greetee: &str) {
 
 And update `main` to call `greet`:
 
-```
+```rust
 fn main() {
     greet("World");
 }
@@ -68,7 +68,7 @@ Just being able to greet strings doesn't seem like enought
 though. Let's add a `Person` type which can be greeted too. Add the
 following at the top:
 
-```
+```rust
 struct Person {
     first: String,
     last: String,
@@ -77,10 +77,10 @@ struct Person {
 
 This defines a structure to hold the information about a person. In
 this example a `Person` has a `first` and `last` name. Both of these
-are owned strings. Nex we'll add an `impl` block to define some
+are owned strings. Next we'll add an `impl` block to define some
 methods for `Person`. Below the `Person` declaration add:
 
-```
+```rust
 impl Person {
     pub fn new(first: &str, last: &str) -> Self {
         Person {
@@ -108,7 +108,7 @@ Self` respectively.
 Next up let's create a instance of a `Person` and `greet` them. Add
 the following at the end of `main`:
 
-```
+```rust
 let me = Person::new("<your>", "<name>");
 greet(&me.name());
 ```
@@ -134,7 +134,7 @@ it means to be "Greetable". Traits in Rust are similar to interfaces
 in other languages, however they are more powerful ins some
 ways. First add the trait definition to the beginning of our code:
 
-```
+```rust
 trait Greetable {
     fn name(&self) -> String;
 }
@@ -142,7 +142,7 @@ trait Greetable {
 
 Next lets move our `name` method from the `impl Person` block to a new `impl` block:
 
-```
+```rust
 impl Greetable for Person {
 
     fn name(&self) -> String {
@@ -158,7 +158,7 @@ our `Greetable` trait there is just one: `name`.
 
 We can now update our `greet` method to accept any type which is `Greetable`:
 
-```
+```rust
 fn greet<T>(greetee: &T)
     where T: Greetable + ?Sized
 {
@@ -168,7 +168,7 @@ fn greet<T>(greetee: &T)
 
 The last step is to then implement `Greetable` for `str`:
 
-```
+```rust
 impl Greetable for str {
     fn name(&self) -> String {
         self.to_string()

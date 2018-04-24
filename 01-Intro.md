@@ -1,6 +1,6 @@
 # Intro
 
-Hi, I'm will Speak. I'm [@willspeak on
+Hi, I'm Will Speak. I'm [@willspeak on
 Twitter](https://twitter.com/willspeak), and [iwillspeak on
 GitHub](https://github.com/iwillspeak).
 
