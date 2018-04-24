@@ -153,7 +153,7 @@ impl Greetable for Person {
 
 Note that the function no longer needs the `pub` modifier.
 
-This block must contain a deifnition for each method in the trait. For
+This block must contain a definition for each method in the trait. For
 our `Greetable` trait there is just one: `name`.
 
 We can now update our `greet` method to accept any type which is `Greetable`:
@@ -166,13 +166,28 @@ fn greet<T>(greetee: &T)
 }
 ```
 
-The last step is to then implement `Greetable` for `str`:
+Here the type bound on T allows `greet` to accept anything which is
+Greetable. The extra `?Sized` is needed to allow us to accept types
+like `str` which don't have a known size at compile time. Usually this
+isn't something you have to worry about.
+
+As well as `Person` we'll need to implement `Greetable` for `str`:
 
 ```rust
 impl Greetable for str {
     fn name(&self) -> String {
         self.to_string()
     }
+}
+```
+
+The last step is to change `main` to greet the `Person` directly:
+
+```rust
+fn main() {
+	greet("World");
+	let me = Person::new("Joe", "Bloggs");
+	greet(&me);
 }
 ```
 
@@ -191,7 +206,7 @@ installed (stable, beta, web asssembly etc.) and keep them all up to
 date. To get starated head to <https://rustup.rs>.
 
 On macOS and Linux copy the command line to a console and run it. On
-windows there is an installer to download an run. Both should end up
+windows there is an installer to download and run. Both should end up
 installing toolchain and adding it to your path. To check open a new
 console and run the following commands:
 
