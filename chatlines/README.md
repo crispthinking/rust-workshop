@@ -125,4 +125,43 @@ To pull all the public API of the `regex` crate into scope.
 
 Go ahead and run the program again with `$ cargo run`. You should now see your `RegexSet` printed out to the console. Here we've use the `:?` print format. This uses the `Debug` representation of the object. Not all objects can be printed directly. If you see the compiler complaining that `X does not implement Display` try replacing the format with `:?`.
 
+## Silencing Lines
+
+Now we have our regex set let's use it! For this we are going to need to read lines from standard input. Lets begin by updating the `use` lines to the beginning of the file:
+
+```rust
+use regex::*;
+use std::io::{self, BufRead};
+use std::iter;
+```
+
+We will be using the `std::io` module to read lines from the console, and the `std::iter` module for some useful iterator extensions. Next we'll add a loop to the bottom of the `main` method:
+
+```rust
+let stdin = io::stdin();
+let ok_lines = stdin.lock()
+    .lines()
+    .filter_map(|l| l.ok());
+
+for line in ok_lines {
+    if regex_set.is_match(&line) {
+        println!(
+            "{}",
+            iter::repeat('*')
+                .take(line.len())
+                .collect::<String>()
+        );
+    } else {
+        println!("{}", line);
+    }
+}
+```
+
+Here we lock the standard input stream, so that we can read from it, and loop over each line that can be read. Inside the loop we check to see if any of the regular expressions in our `regex_set` match, and if so we print out some `*` characters in place of the real line. Note the use of the iterator adapters [`filter_map`] to check for lines which were read successfully; and [`take`] and [`collect`] to convert an endless repeating iterator of `*` characters into the string to print out.
+
+To find out more about these functions you can visit <https://doc.rust-lang.org/> and click on "API Documentation" for information about the standard library or head to <https://docs.rs> to search third-party crate documentation.
+
  [regex-crate]: https://crates.io/crates/regex
+ [`filter_map`]: https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.filter_map
+ [`collect`]: https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.collect
+ [`take`]: https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.take
