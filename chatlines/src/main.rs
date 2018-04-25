@@ -1,8 +1,10 @@
 extern crate regex;
 
-use regex::Regex;
+use regex::*;
 
 fn main() {
-    let r = Regex::new("world").unwrap();
-    println!("{}", r.is_match("Hello, world!"));
+    let badwords = ["c", r"c\++", "ada"];
+    let regex_set = RegexSet::new(&badwords).unwrap();
+
+    println!("Created set: {:?}", regex_set);
 }

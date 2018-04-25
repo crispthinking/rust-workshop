@@ -104,4 +104,25 @@ similar to the following at your console:
 true
 ```
 
+## Creating the `RegexSet`
+
+For this example we will be filtering out the competing programming languages: `C`, `C++`, and `Ada`. Replace the body of the `main` method with the following declaration:
+
+```rust
+    let badwords = ["c", r"c\++", "ada"];
+    let regex_set = RegexSet::new(&badwords).unwrap();
+
+    println!("Created set: {:?}", regex_set);
+```
+
+Because we want to use the `RegexSet` type we need to update our `use` line too. We could switch it to `use regex::RegexSet`, however we will be using quite a bit from this module. Instead we can be lazy and replace it with:
+
+```rust
+use regex::*;
+```
+
+To pull all the public API of the `regex` crate into scope.
+
+Go ahead and run the program again with `$ cargo run`. You should now see your `RegexSet` printed out to the console. Here we've use the `:?` print format. This uses the `Debug` representation of the object. Not all objects can be printed directly. If you see the compiler complaining that `X does not implement Display` try replacing the format with `:?`.
+
  [regex-crate]: https://crates.io/crates/regex
