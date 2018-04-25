@@ -16,6 +16,7 @@ Speakerdeck][speakerdeck-slides]. Speaker notes are available in the
 The exercises are designed to get you started with Rust.
 
   * [Hello World](hello/) - Intro to Rust and installing the toolchain
+  * [Chat Filtering](chatlines/) - Getting started with crates, and using regex for fun and profit
 
 
  [leeds-digital]: https://leedsdigitalfestival.org/
