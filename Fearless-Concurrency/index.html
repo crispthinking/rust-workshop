@@ -9,11 +9,12 @@
     <link rel="stylesheet" href="../style.css">
     <script>hljs.initHighlightingOnLoad();</script>
   </head>
-  <body><header class="page-heading"><h1><a href="#">Fearless Concurrency</h1><a class="home-link" href="../">presentation-notes</a></header><p>The same kinds of features that allow you to build safe
+  <body><header class="page-heading"><h1><a href="#">Fearless Concurrency</h1><a class="home-link" href="../">Rust Workshop
+</a></header><p>The same kinds of features that allow you to build safe
 single-threaded code also provide the building blocks for creating
 safe threaded code.</p>
 <h2 id="Mutex-Owns-You"><a href="#Mutex-Owns-You">Mutex Owns You</a></h2><p>In rust a Mutex contains a value, but that value can't be accessed
-directly instead you are forced to lock the mutext. When the lock goes
+directly instead you are forced to lock the Mutex. When the lock goes
 out of scope you no longer have access to the value.</p>
 <pre><code>let mutex = Mutex::new(10);
 
@@ -33,7 +34,7 @@ println!(&quot;Final value: {:?}&quot;, mutex.into_inner());
 <p><a href="https://play.rust-lang.org/?gist=06612c9159235c8f797ba0ef807a0419&amp;version=stable">Playground</a></p>
 <h2 id="Rayon"><a href="#Rayon">Rayon</a></h2><p>A lot of rust code uses iterator adapters like <code>map</code>, <code>filter</code> and so
 on. Because of the strict guarantees about what the lambdas passed to
-each operation can do making code mukli-threaded is often as simple as
+each operation can do making code multi-threaded is often as simple as
 changing <code>iter()</code> to <code>par_iter()</code> with Rayon.</p>
 <pre><code>fn sum_of_squares(input: &amp;[i32]) -&gt; i32 {
     input.iter()

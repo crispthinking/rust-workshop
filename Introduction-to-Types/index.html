@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="../style.css">
     <script>hljs.initHighlightingOnLoad();</script>
   </head>
-  <body><header class="page-heading"><h1><a href="#">Intro to Types</h1><a class="home-link" href="../">presentation-notes</a></header><p>As well as lifetimes and borrowing another key feature in Rust is the
+  <body><header class="page-heading"><h1><a href="#">Intro to Types</h1><a class="home-link" href="../">Rust Workshop
+</a></header><p>As well as lifetimes and borrowing another key feature in Rust is the
 strong static type system. As well as simple types like integers,
 strings, and arrays Rust has tuple types and user-defined <code>struct</code>s
 and <code>enum</code>s.</p>
@@ -54,7 +55,7 @@ force the person consuming the API to check if there was a last name.</p>
 }
 
 fn print_surname(person: Person) {
-    if let Some(surname) = person {
+    if let Some(surname) = person.surname {
         println!(&quot;{}'s surname is {}&quot;, person.forename, surname);
     } else {
         println!(&quot;{} has no surname&quot;);
