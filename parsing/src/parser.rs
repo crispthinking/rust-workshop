@@ -14,6 +14,11 @@ enum ParserState {
     InPunctuation(String),
 }
 
+/// Next From Token Boundary
+///
+/// Returns the next parser state for a given character if there is no
+/// context. This is used when a token has just been emitted to find
+/// the next state without any context.
 fn next_from_boundary(c: char) -> ParserState {
     match c {
         c if c.is_alphabetic() => InWord(c.to_string()),
@@ -28,45 +33,38 @@ pub fn parse(input: &str) -> Vec<Token> {
 
     for c in input.chars() {
 
-        let next = match state {
-            Boundary => Some(next_from_boundary(c)),
+        state = match state {
+            Boundary => next_from_boundary(c),
             InWord(mut word) => match c {
                 c if c.is_alphabetic() => {
                     word.push(c);
-                    Some(InWord(word))
+                    InWord(word)
                 },
                 _ => {
                     tokens.push(Token::Word(word));
-                    None
+                    next_from_boundary(c)
                 }
             },
             InNumber(num) => match c {
                 '0'...'9' => {
-                    Some(InNumber((num * 10) + c.to_digit(10).unwrap()))
+                    InNumber((num * 10) + c.to_digit(10).unwrap())
                 },
                 _ => {
                     tokens.push(Token::Number(num));
-                    None
+                    next_from_boundary(c)
                 }
             },
             InPunctuation(mut punct) => match c {
                 c if c.is_alphanumeric() => {
                     tokens.push(Token::Punct(punct));
-                    None
+                    next_from_boundary(c)
                 },
                 c => {
                     punct.push(c);
-                    Some(InPunctuation(punct))
+                    InPunctuation(punct)
                 }
             },
         };
-        
-        if let Some(new_state) = next {
-            state = new_state;
-        } else {
-            state = next_from_boundary(c);
-        }
-        
     }
 
     tokens
