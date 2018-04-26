@@ -7,34 +7,33 @@ of expressions match in a given piece of text.
 
 ## Using this Tutorial
 
-In this tuturial I'll walk you through creating a simple program that
+In this tutorial I'll walk you through creating a simple program that
 uses regular expressions using the rust toolchain. In this tutorial `$
 foo` represents commands which should be typed at the command line. To
 follow the tutorial you should make sure you have access to:
 
  * A terminal or console from which you can run `cargo` and `rustc`.
- * A text editor (Visual Studio Code is recommemnded if you have to choose)
+ * A text editor (Visual Studio Code is recommended if you have to choose)
 
 # Creating a Project
 
-Let's begin by creating a new empty console applicaiton with
+Let's begin by creating a new empty console application with
 `cargo`. Open your terminal and run:
 
 ```
 $ cargo new --bin chatlines
 ```
 
-This shoudl create a new directory called `chatlines/` with a layout
+This should create a new directory called `chatlines/` with a layout
 similar to this:
 
 ```
 .
-├── #README.md#
 ├── Cargo.toml
 └── src
     └── main.rs
 
-1 directory, 3 files
+1 directory, 2 files
 ```
 
 Change into that directory and make sure everything is working by running:
@@ -76,7 +75,7 @@ fn main() {
 There's a few interesting things going on here; let's go through it
 line-by-line.
 
-The `extern crate` delcaration pulls the contents of the `regex` crate
+The `extern crate` declaration pulls the contents of the `regex` crate
 into scope and allows code to reference it. The following `use`
 declaration pulls the `Regex` type out of the `regex` module into the
 current scope so that code can access it without using the full path
@@ -88,7 +87,7 @@ instance. Seen as this can fail the `Regex::new` method returns a
 `Ok` part of it, or `panic!` and exit the program if there was an
 error. Although `Option` and `Result` allow you to handle failure
 properly sometimes when prototyping code like this it is useful not to
-have to worry about the erorr cases. As well as `Result` there is also
+have to worry about the error cases. As well as `Result` there is also
 an `unwrap` on `Option`.
 
 Now we have the `Regex` instance the last line checks if the pattern
@@ -192,7 +191,7 @@ for mut line in ok_lines {
 }
 ```
 
-This switches from using `is_match`, which checks if a pattern matches anywhere to `matches`. The `matches` method returns more metadata about the match, including which patterns matched. We then loop through each pattern and replace the match using `Regex::replace`. The replacement function can accept anything which implementes the [`Replacer`] trait. In this case we've given it a closure which creates a string of `*` characters. You can also use a plain string too or write your own replacer type if needed.
+This switches from using `is_match`, which checks if a pattern matches anywhere to `matches`. The `matches` method returns more metadata about the match, including which patterns matched. We then loop through each pattern and replace the match using `Regex::replace`. The replacement function can accept anything which implements the [`Replacer`] trait. In this case we've given it a closure which creates a string of `*` characters. You can also use a plain string too or write your own replacer type if needed.
 
 Go ahead and run the program again. Try typing in some text and check that just the `badwords` are being filtered.
 

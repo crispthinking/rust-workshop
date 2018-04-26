@@ -211,9 +211,9 @@ installing toolchain and adding it to your path. To check open a new
 console and run the following commands:
 
     $ cargo --version
-	cargo 0.26.0 (41480f5cc 2018-02-26)
-	$ rustc --version
-	rustc 1.25.0 (84203cac6 2018-03-25)
+    cargo 0.26.0 (41480f5cc 2018-02-26)
+    $ rustc --version
+    rustc 1.25.0 (84203cac6 2018-03-25)
 
 You should see similar output.
 
