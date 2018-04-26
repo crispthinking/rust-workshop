@@ -1,6 +1,0 @@
-[package]
-name = "library"
-version = "0.1.0"
-authors = ["Will Speak <will.speak@crispthinking.com>"]
-
-[dependencies]
