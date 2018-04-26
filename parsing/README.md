@@ -84,9 +84,14 @@ just define the outline of our parser so we can get things compiling:
 use token::Token;
 
 pub fn parse(input: &str) -> Vec<Token> {
-	vec![Token::Number(42)]
+    vec![Token::Number(42)]
 }
 ```
+
+The `vec!` macro can be used to define a vector of elements more
+easily. It compiles down to creating a new `Vec` and `push`ing each
+itme on to it. This is a great example of where macros can save you a
+lot of typing.
 
 You should now be able to compile and run with `$ cargo run` and see
 something similar to the following:

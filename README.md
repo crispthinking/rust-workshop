@@ -17,7 +17,7 @@ The exercises are designed to get you started with Rust.
 
   * [Hello World](hello/) - Intro to Rust and installing the toolchain
   * [Chat Filtering](chatlines/) - Getting started with crates, and using regex for fun and profit
-
+  * [Parsing Strings](parsing/) - Working with sate machines and modules to parse strings
 
  [leeds-digital]: https://leedsdigitalfestival.org/
  [ld-event]: https://blog.crispthinking.com/time-to-let-your-skills-go-rusty?hs_preview=fonOnJco-5670310199
