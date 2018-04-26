@@ -1,0 +1,31 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-hello",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/hello"
+            },
+            "command": "cargo build"
+        },
+        {
+            "label": "build-chatlines",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/chatlines"
+            },
+            "command": "cargo build"
+        },
+        {
+            "label": "build-parsing",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/parsing"
+            },
+            "command": "cargo build"
+        }
+    ]
+}

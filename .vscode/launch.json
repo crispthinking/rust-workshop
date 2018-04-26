@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "preLaunchTask": "build-hello",
+            "name": "Hello World",
+            "program": "${workspaceFolder}/hello/target/debug/hello",
+            "args": [],
+            "cwd": "${workspaceFolder}/hello/"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "preLaunchTask": "build-chatlines",
+            "name": "Chatlines",
+            "program": "${workspaceFolder}/chatlines/target/debug/chatlines",
+            "args": [],
+            "cwd": "${workspaceFolder}/hello/"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "preLaunchTask": "build-parsing",
+            "name": "Parsing",
+            "program": "${workspaceFolder}/parsing/target/debug/parsing",
+            "args": [],
+            "cwd": "${workspaceFolder}/hello/"
+        }
+    ]
+}
