@@ -11,7 +11,8 @@ the Rust toolchain. Throughout I will use $ foo to represent commands
 which should be from the command line. To follow this tutorial you
 should make sure you have access to:
 
- * A terminal or Console
+ * A terminal or Console. This should be the *Developer Command Prompt
+   for VS* on Windows.
  * A text editor
  * A web browser
 
@@ -218,7 +219,11 @@ console and run the following commands:
     $ rustc --version
     rustc 1.25.0 (84203cac6 2018-03-25)
 
-You should see similar output.
+You should see similar output. If you see errors about not finding the
+commands make sure it is a new termial window rather than the one you
+used to download and install the toolchain. On Windows you'll need to
+make sure you're using the *Developer Command Prompt for VS* rather
+than a plain old command window.
 
 ## Creating a Project with Cargo
 

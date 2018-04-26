@@ -160,7 +160,7 @@ Here we lock the standard input stream, so that we can read from it, and loop ov
 
 To find out more about these functions you can visit <https://doc.rust-lang.org/> and click on "API Documentation" for information about the standard library or head to <https://docs.rs> to search third-party crate documentation.
 
-Go ahead and try this out by running `$ cargo run` and type some text in. Each time you press enter the line should be echoed back to you. Try typing lines which do and don't contain bad words.
+Go ahead and try this out by running `$ cargo run` and type some text in. Each time you press enter the line should be echoed back to you. Try typing lines which do and don't contain bad words. Once you're done type <kbd>Ctrl-D</kbd> on macOS and Linux or <kbd>Ctrl-Z</kbd> on Windows.
 
 ## Replacing just the Bad Words
 
