@@ -161,7 +161,55 @@ Here we lock the standard input stream, so that we can read from it, and loop ov
 
 To find out more about these functions you can visit <https://doc.rust-lang.org/> and click on "API Documentation" for information about the standard library or head to <https://docs.rs> to search third-party crate documentation.
 
+Go ahead and try this out by running `$ cargo run` and type some text in. Each time you press enter the line should be echoed back to you. Try typing lines which do and don't contain bad words.
+
+## Replacing just the Bad Words
+
+Filtering out the entire line if someone uses a bad word seems a bit over the top. Lets update our program so that only the bad words themselves are removed.
+
+First, we will need a regex for each pattern in `badwords`. Add the following just after your `regex_set` is created:
+
+```rust
+let regexes = badwords.iter()
+    .map(|w| Regex::new(w))
+    .collect::<Result<Vec<_>, _>>()
+    .unwrap();
+```
+
+Replace the for loop with the following:
+
+```rust
+for mut line in ok_lines {
+    let match_info = regex_set.matches(&line);
+    if match_info.matched_any() {
+        for m in match_info.into_iter() {
+            line = regexes[m].replace(&line, |caps: &Captures| {
+                iter::repeat('*').take(caps[0].len()).collect()
+            }).to_string();
+        }
+    }
+    println!("{}", line);
+}
+```
+
+This switches from using `is_match`, which checks if a pattern matches anywhere to `matches`. The `matches` method returns more metadata about the match, including which patterns matched. We then loop through each pattern and replace the match using `Regex::replace`. The replacement function can accept anything which implementes the [`Replacer`] trait. In this case we've given it a closure which creates a string of `*` characters. You can also use a plain string too or write your own replacer type if needed.
+
+Go ahead and run the program again. Try typing in some text and check that just the `badwords` are being filtered.
+
+That's it! You've created a chat filtering application using Rust! Now all you need to do to compete with Crisp is to make it scale...
+
+## Source Code
+
+The final source code for this exercise can be found [next to this file on GitHub](./).
+
+## Extra Credit
+
+What happens if you have more than one match for a given pattern in the string?
+
+Try creating a custom [`Replacer`] that creates the `*` substitutions. Maybe make the replacement character configurable.
+
  [regex-crate]: https://crates.io/crates/regex
  [`filter_map`]: https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.filter_map
  [`collect`]: https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.collect
  [`take`]: https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.take
+ [`Replacer`]: https://docs.rs/regex/0.2.10/regex/trait.Replacer.html

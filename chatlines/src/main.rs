@@ -7,6 +7,10 @@ use std::iter;
 fn main() {
     let badwords = ["c", r"c\++", "ada"];
     let regex_set = RegexSet::new(&badwords).unwrap();
+    let regexes = badwords.iter()
+        .map(|w| Regex::new(w))
+        .collect::<Result<Vec<_>, _>>()
+        .unwrap();
 
     println!("Created set: {:?}", regex_set);
 
@@ -15,16 +19,15 @@ fn main() {
         .lines()
         .filter_map(|l| l.ok());
 
-    for line in ok_lines {
-        if regex_set.is_match(&line) {
-            println!(
-                "{}",
-                iter::repeat('*')
-                    .take(line.len())
-                    .collect::<String>()
-            );
-        } else {
-            println!("{}", line);
+    for mut line in ok_lines {
+        let match_info = regex_set.matches(&line);
+        if match_info.matched_any() {
+            for m in match_info.into_iter() {
+                line = regexes[m].replace(&line, |caps: &Captures| {
+                    iter::repeat('*').take(caps[0].len()).collect()
+                }).to_string();
+            }
         }
+        println!("{}", line);
     }
 }
