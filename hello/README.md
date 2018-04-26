@@ -267,3 +267,8 @@ first Rust program. You're now a Rustacean.
 The final source code for this exercise can be found [next to this
 file on
 GitHub](./).
+
+## Extra Credit
+
+* Try creating other `Greetable` types, such as `Company` or `Group`.
+* Instead of always greeting with "Hello" try making the greeting customisable. Maybe create a `Greeter` trait which can greet any `Greetable`.
