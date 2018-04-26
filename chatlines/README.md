@@ -203,12 +203,13 @@ The final source code for this exercise can be found [next to this file on GitHu
 
 ## Extra Credit
 
-What happens if you have more than one match for a given pattern in the string?
-
-Try creating a custom [`Replacer`] that creates the `*` substitutions. Maybe make the replacement character configurable.
+ * What happens if you have more than one match for a given pattern in the string?
+ * What happens if you get the case wrong in your chat line? Try using the [`RegexSetBuilder`] to enable case-insensitive matching.
+ * Try creating a custom [`Replacer`] that creates the `*` substitutions. Maybe make the replacement character configurable.
 
  [regex-crate]: https://crates.io/crates/regex
  [`filter_map`]: https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.filter_map
  [`collect`]: https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.collect
  [`take`]: https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.take
  [`Replacer`]: https://docs.rs/regex/0.2.10/regex/trait.Replacer.html
+ [`RegexSetBuilder`]: https://docs.rs/regex/0.2.10/regex/struct.RegexSetBuilder.html
