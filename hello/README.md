@@ -191,7 +191,8 @@ fn main() {
 }
 ```
 
-If all goes well you should be able to run the example again and see the same output:
+If all goes well you should be able to run the example again and see
+the same output:
 
     Hello, World!
 	Hello, Joe Bloggs!
@@ -206,7 +207,9 @@ installed (stable, beta, web asssembly etc.) and keep them all up to
 date. To get starated head to <https://rustup.rs>.
 
 On macOS and Linux copy the command line to a console and run it. On
-windows there is an installer to download and run. Both should end up
+Windows there is an installer to download and run. If you are
+installing on Windows you'll need to make sure you have the [Build
+Tolls for Visual Studio][build-tools] installed. Both should end up
 installing toolchain and adding it to your path. To check open a new
 console and run the following commands:
 
@@ -271,4 +274,8 @@ GitHub](./).
 ## Extra Credit
 
 * Try creating other `Greetable` types, such as `Company` or `Group`.
-* Instead of always greeting with "Hello" try making the greeting customisable. Maybe create a `Greeter` trait which can greet any `Greetable`.
+* Instead of always greeting with "Hello" try making the greeting
+  customisable. Maybe create a `Greeter` trait which can greet any
+  `Greetable`.
+
+ [build-tools]: https://www.visualstudio.com/downloads/#build-tools-for-visual-studio-2017
